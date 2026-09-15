@@ -13,7 +13,7 @@ PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER);
 #define SCR_HEIGHT 272
 
 int main(void) {
-    const SpriteEntry* s = sprite_lookup("title");
+    const SpriteEntry* s = sprite_lookup("title_dante");
     if (!s) { sceKernelExitGame(); return 0; }
 
     // Avisa o PSP/PPSSPP qual eh o framebuffer

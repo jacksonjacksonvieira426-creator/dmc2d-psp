@@ -2,116 +2,116 @@
 #include <string.h>
 #include "sprites_table.h"
 
-#include "sprites_data/a0.c"
-#include "sprites_data/add.c"
-#include "sprites_data/b0.c"
-#include "sprites_data/b1.c"
-#include "sprites_data/b2.c"
-#include "sprites_data/b3.c"
-#include "sprites_data/bar.c"
-#include "sprites_data/capcom_logo.c"
-#include "sprites_data/d0.c"
-#include "sprites_data/d1.c"
-#include "sprites_data/d2.c"
-#include "sprites_data/d3.c"
-#include "sprites_data/h0.c"
-#include "sprites_data/h1.c"
-#include "sprites_data/h10.c"
-#include "sprites_data/h11.c"
-#include "sprites_data/h2.c"
-#include "sprites_data/h3.c"
-#include "sprites_data/h4.c"
-#include "sprites_data/h5.c"
-#include "sprites_data/h6.c"
-#include "sprites_data/h7.c"
-#include "sprites_data/h8.c"
-#include "sprites_data/h9.c"
-#include "sprites_data/icon.c"
-#include "sprites_data/ig0.c"
-#include "sprites_data/ig1.c"
-#include "sprites_data/ig10.c"
-#include "sprites_data/ig11.c"
-#include "sprites_data/ig2.c"
-#include "sprites_data/ig3.c"
-#include "sprites_data/ig4.c"
-#include "sprites_data/ig5.c"
-#include "sprites_data/ig6.c"
-#include "sprites_data/ig7.c"
-#include "sprites_data/ig8.c"
-#include "sprites_data/ig9.c"
-#include "sprites_data/l1.c"
-#include "sprites_data/mm.c"
-#include "sprites_data/p0.c"
-#include "sprites_data/s0.c"
-#include "sprites_data/small.c"
-#include "sprites_data/small_sp.c"
-#include "sprites_data/title.c"
-#include "sprites_data/tl_dante.c"
-#include "sprites_data/tl_txt.c"
-#include "sprites_data/ts0.c"
-#include "sprites_data/ts1.c"
-#include "sprites_data/ts2.c"
-#include "sprites_data/ts3.c"
-#include "sprites_data/v1.c"
-#include "sprites_data/v2.c"
-#include "sprites_data/wi_e.c"
-#include "sprites_data/wi_r.c"
+#include "sprites_data/enemy_spider.c"
+#include "sprites_data/title_main.c"
+#include "sprites_data/dante_atk_h.c"
+#include "sprites_data/dante_guns.c"
+#include "sprites_data/dante_dark.c"
+#include "sprites_data/dante_close.c"
+#include "sprites_data/hud_hp_bar.c"
+#include "sprites_data/boot_capcom.c"
+#include "sprites_data/dante_armor.c"
+#include "sprites_data/orb_grid.c"
+#include "sprites_data/item_swords.c"
+#include "sprites_data/fx_slash.c"
+#include "sprites_data/item_sword.c"
+#include "sprites_data/orb_big.c"
+#include "sprites_data/tile_lines.c"
+#include "sprites_data/tile_wall_col.c"
+#include "sprites_data/hud_arrow.c"
+#include "sprites_data/hud_combo_text.c"
+#include "sprites_data/item_pistols.c"
+#include "sprites_data/item_potion1.c"
+#include "sprites_data/item_potion2.c"
+#include "sprites_data/item_boot.c"
+#include "sprites_data/hud_arrow_sm.c"
+#include "sprites_data/fx_vortex.c"
+#include "sprites_data/hud_icon_dante.c"
+#include "sprites_data/orb_red.c"
+#include "sprites_data/orb_green.c"
+#include "sprites_data/item_crystal.c"
+#include "sprites_data/fx_star.c"
+#include "sprites_data/fx_fire.c"
+#include "sprites_data/hud_bar_bg.c"
+#include "sprites_data/hud_bar_fill.c"
+#include "sprites_data/fx_fire_sm.c"
+#include "sprites_data/fx_fire_sm2.c"
+#include "sprites_data/item_pillar.c"
+#include "sprites_data/item_statue1.c"
+#include "sprites_data/item_statue2.c"
+#include "sprites_data/fx_particles.c"
+#include "sprites_data/hud_menu.c"
+#include "sprites_data/dante_fight.c"
+#include "sprites_data/dante_main.c"
+#include "sprites_data/font_small.c"
+#include "sprites_data/font_small_sp.c"
+#include "sprites_data/font_big.c"
+#include "sprites_data/title_dante.c"
+#include "sprites_data/title_logo.c"
+#include "sprites_data/tile_forest.c"
+#include "sprites_data/tile_wall.c"
+#include "sprites_data/tile_dark.c"
+#include "sprites_data/tile_stone.c"
+#include "sprites_data/coin_grid.c"
+#include "sprites_data/fx_cut.c"
+#include "sprites_data/item_weapon_e.c"
+#include "sprites_data/item_weapon_r.c"
 
 const SpriteEntry sprites_table[] = {
-    {"a0", a0_pixels, A0_W, A0_H},
-    {"add", add_pixels, ADD_W, ADD_H},
-    {"b0", b0_pixels, B0_W, B0_H},
-    {"b1", b1_pixels, B1_W, B1_H},
-    {"b2", b2_pixels, B2_W, B2_H},
-    {"b3", b3_pixels, B3_W, B3_H},
-    {"bar", bar_pixels, BAR_W, BAR_H},
-    {"capcom_logo", capcom_logo_pixels, CAPCOM_LOGO_W, CAPCOM_LOGO_H},
-    {"d0", d0_pixels, D0_W, D0_H},
-    {"d1", d1_pixels, D1_W, D1_H},
-    {"d2", d2_pixels, D2_W, D2_H},
-    {"d3", d3_pixels, D3_W, D3_H},
-    {"h0", h0_pixels, H0_W, H0_H},
-    {"h1", h1_pixels, H1_W, H1_H},
-    {"h10", h10_pixels, H10_W, H10_H},
-    {"h11", h11_pixels, H11_W, H11_H},
-    {"h2", h2_pixels, H2_W, H2_H},
-    {"h3", h3_pixels, H3_W, H3_H},
-    {"h4", h4_pixels, H4_W, H4_H},
-    {"h5", h5_pixels, H5_W, H5_H},
-    {"h6", h6_pixels, H6_W, H6_H},
-    {"h7", h7_pixels, H7_W, H7_H},
-    {"h8", h8_pixels, H8_W, H8_H},
-    {"h9", h9_pixels, H9_W, H9_H},
-    {"icon", icon_pixels, ICON_W, ICON_H},
-    {"ig0", ig0_pixels, IG0_W, IG0_H},
-    {"ig1", ig1_pixels, IG1_W, IG1_H},
-    {"ig10", ig10_pixels, IG10_W, IG10_H},
-    {"ig11", ig11_pixels, IG11_W, IG11_H},
-    {"ig2", ig2_pixels, IG2_W, IG2_H},
-    {"ig3", ig3_pixels, IG3_W, IG3_H},
-    {"ig4", ig4_pixels, IG4_W, IG4_H},
-    {"ig5", ig5_pixels, IG5_W, IG5_H},
-    {"ig6", ig6_pixels, IG6_W, IG6_H},
-    {"ig7", ig7_pixels, IG7_W, IG7_H},
-    {"ig8", ig8_pixels, IG8_W, IG8_H},
-    {"ig9", ig9_pixels, IG9_W, IG9_H},
-    {"l1", l1_pixels, L1_W, L1_H},
-    {"mm", mm_pixels, MM_W, MM_H},
-    {"p0", p0_pixels, P0_W, P0_H},
-    {"s0", s0_pixels, S0_W, S0_H},
-    {"small", small_pixels, SMALL_W, SMALL_H},
-    {"small_sp", small_sp_pixels, SMALL_SP_W, SMALL_SP_H},
-    {"title", title_pixels, TITLE_W, TITLE_H},
-    {"tl_dante", tl_dante_pixels, TL_DANTE_W, TL_DANTE_H},
-    {"tl_txt", tl_txt_pixels, TL_TXT_W, TL_TXT_H},
-    {"ts0", ts0_pixels, TS0_W, TS0_H},
-    {"ts1", ts1_pixels, TS1_W, TS1_H},
-    {"ts2", ts2_pixels, TS2_W, TS2_H},
-    {"ts3", ts3_pixels, TS3_W, TS3_H},
-    {"v1", v1_pixels, V1_W, V1_H},
-    {"v2", v2_pixels, V2_W, V2_H},
-    {"wi_e", wi_e_pixels, WI_E_W, WI_E_H},
-    {"wi_r", wi_r_pixels, WI_R_W, WI_R_H},
+    {"enemy_spider", enemy_spider_pixels, ENEMY_SPIDER_W, ENEMY_SPIDER_H},
+    {"title_main", title_main_pixels, TITLE_MAIN_W, TITLE_MAIN_H},
+    {"dante_atk_h", dante_atk_h_pixels, DANTE_ATK_H_W, DANTE_ATK_H_H},
+    {"dante_guns", dante_guns_pixels, DANTE_GUNS_W, DANTE_GUNS_H},
+    {"dante_dark", dante_dark_pixels, DANTE_DARK_W, DANTE_DARK_H},
+    {"dante_close", dante_close_pixels, DANTE_CLOSE_W, DANTE_CLOSE_H},
+    {"hud_hp_bar", hud_hp_bar_pixels, HUD_HP_BAR_W, HUD_HP_BAR_H},
+    {"boot_capcom", boot_capcom_pixels, BOOT_CAPCOM_W, BOOT_CAPCOM_H},
+    {"dante_armor", dante_armor_pixels, DANTE_ARMOR_W, DANTE_ARMOR_H},
+    {"orb_grid", orb_grid_pixels, ORB_GRID_W, ORB_GRID_H},
+    {"item_swords", item_swords_pixels, ITEM_SWORDS_W, ITEM_SWORDS_H},
+    {"fx_slash", fx_slash_pixels, FX_SLASH_W, FX_SLASH_H},
+    {"item_sword", item_sword_pixels, ITEM_SWORD_W, ITEM_SWORD_H},
+    {"orb_big", orb_big_pixels, ORB_BIG_W, ORB_BIG_H},
+    {"tile_lines", tile_lines_pixels, TILE_LINES_W, TILE_LINES_H},
+    {"tile_wall_col", tile_wall_col_pixels, TILE_WALL_COL_W, TILE_WALL_COL_H},
+    {"hud_arrow", hud_arrow_pixels, HUD_ARROW_W, HUD_ARROW_H},
+    {"hud_combo_text", hud_combo_text_pixels, HUD_COMBO_TEXT_W, HUD_COMBO_TEXT_H},
+    {"item_pistols", item_pistols_pixels, ITEM_PISTOLS_W, ITEM_PISTOLS_H},
+    {"item_potion1", item_potion1_pixels, ITEM_POTION1_W, ITEM_POTION1_H},
+    {"item_potion2", item_potion2_pixels, ITEM_POTION2_W, ITEM_POTION2_H},
+    {"item_boot", item_boot_pixels, ITEM_BOOT_W, ITEM_BOOT_H},
+    {"hud_arrow_sm", hud_arrow_sm_pixels, HUD_ARROW_SM_W, HUD_ARROW_SM_H},
+    {"fx_vortex", fx_vortex_pixels, FX_VORTEX_W, FX_VORTEX_H},
+    {"hud_icon_dante", hud_icon_dante_pixels, HUD_ICON_DANTE_W, HUD_ICON_DANTE_H},
+    {"orb_red", orb_red_pixels, ORB_RED_W, ORB_RED_H},
+    {"orb_green", orb_green_pixels, ORB_GREEN_W, ORB_GREEN_H},
+    {"item_crystal", item_crystal_pixels, ITEM_CRYSTAL_W, ITEM_CRYSTAL_H},
+    {"fx_star", fx_star_pixels, FX_STAR_W, FX_STAR_H},
+    {"fx_fire", fx_fire_pixels, FX_FIRE_W, FX_FIRE_H},
+    {"hud_bar_bg", hud_bar_bg_pixels, HUD_BAR_BG_W, HUD_BAR_BG_H},
+    {"hud_bar_fill", hud_bar_fill_pixels, HUD_BAR_FILL_W, HUD_BAR_FILL_H},
+    {"fx_fire_sm", fx_fire_sm_pixels, FX_FIRE_SM_W, FX_FIRE_SM_H},
+    {"fx_fire_sm2", fx_fire_sm2_pixels, FX_FIRE_SM2_W, FX_FIRE_SM2_H},
+    {"item_pillar", item_pillar_pixels, ITEM_PILLAR_W, ITEM_PILLAR_H},
+    {"item_statue1", item_statue1_pixels, ITEM_STATUE1_W, ITEM_STATUE1_H},
+    {"item_statue2", item_statue2_pixels, ITEM_STATUE2_W, ITEM_STATUE2_H},
+    {"fx_particles", fx_particles_pixels, FX_PARTICLES_W, FX_PARTICLES_H},
+    {"hud_menu", hud_menu_pixels, HUD_MENU_W, HUD_MENU_H},
+    {"dante_fight", dante_fight_pixels, DANTE_FIGHT_W, DANTE_FIGHT_H},
+    {"dante_main", dante_main_pixels, DANTE_MAIN_W, DANTE_MAIN_H},
+    {"font_small", font_small_pixels, FONT_SMALL_W, FONT_SMALL_H},
+    {"font_small_sp", font_small_sp_pixels, FONT_SMALL_SP_W, FONT_SMALL_SP_H},
+    {"font_big", font_big_pixels, FONT_BIG_W, FONT_BIG_H},
+    {"title_dante", title_dante_pixels, TITLE_DANTE_W, TITLE_DANTE_H},
+    {"title_logo", title_logo_pixels, TITLE_LOGO_W, TITLE_LOGO_H},
+    {"tile_forest", tile_forest_pixels, TILE_FOREST_W, TILE_FOREST_H},
+    {"tile_wall", tile_wall_pixels, TILE_WALL_W, TILE_WALL_H},
+    {"tile_dark", tile_dark_pixels, TILE_DARK_W, TILE_DARK_H},
+    {"tile_stone", tile_stone_pixels, TILE_STONE_W, TILE_STONE_H},
+    {"coin_grid", coin_grid_pixels, COIN_GRID_W, COIN_GRID_H},
+    {"fx_cut", fx_cut_pixels, FX_CUT_W, FX_CUT_H},
+    {"item_weapon_e", item_weapon_e_pixels, ITEM_WEAPON_E_W, ITEM_WEAPON_E_H},
+    {"item_weapon_r", item_weapon_r_pixels, ITEM_WEAPON_R_W, ITEM_WEAPON_R_H},
 };
 
 const SpriteEntry* sprite_lookup(const char* nome) {
