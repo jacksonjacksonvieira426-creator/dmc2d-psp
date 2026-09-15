@@ -1,4 +1,4 @@
-// Teste relampago: desenha title.png na tela (v2)
+// Teste relampago: desenha title_dante.png (v3 - com fix de cor)
 #include <pspkernel.h>
 #include <pspdisplay.h>
 #include <string.h>
@@ -12,21 +12,25 @@ PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER);
 #define SCR_WIDTH 480
 #define SCR_HEIGHT 272
 
+// Swap R <-> B (ARGB -> ABGR para o PSP)
+static inline unsigned int fix_cor(unsigned int c) {
+    return (c & 0xFF00FF00)              // A e G preservados
+         | ((c & 0x00FF0000) >> 16)      // R -> B
+         | ((c & 0x000000FF) << 16);     // B -> R
+}
+
 int main(void) {
     const SpriteEntry* s = sprite_lookup("title_dante");
     if (!s) { sceKernelExitGame(); return 0; }
 
-    // Avisa o PSP/PPSSPP qual eh o framebuffer
     sceDisplaySetFrameBuf((void*)VRAM, BUF_WIDTH,
                           PSP_DISPLAY_PIXEL_FORMAT_8888,
                           PSP_DISPLAY_SETBUF_NEXTFRAME);
 
     while (1) {
-        // Fundo preto — desenha TODO frame
         for (int i = 0; i < BUF_WIDTH * SCR_HEIGHT; i++)
             VRAM[i] = 0xFF000000;
 
-        // Desenha title centralizado
         int ox = (SCR_WIDTH  - s->w) / 2;
         int oy = (SCR_HEIGHT - s->h) / 2;
         if (ox < 0) ox = 0;
@@ -36,7 +40,7 @@ int main(void) {
             for (int x = 0; x < s->w && (ox + x) < SCR_WIDTH; x++) {
                 unsigned int cor = s->pixels[y * s->w + x];
                 if (cor >> 24)
-                    VRAM[(oy + y) * BUF_WIDTH + (ox + x)] = cor;
+                    VRAM[(oy + y) * BUF_WIDTH + (ox + x)] = fix_cor(cor);
             }
         }
 
