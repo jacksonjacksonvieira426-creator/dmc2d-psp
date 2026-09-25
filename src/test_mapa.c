@@ -21,7 +21,7 @@ int main(void) {
                           PSP_DISPLAY_SETBUF_NEXTFRAME);
 
     // Mostra o s0 (dante_main) INTEIRO, 1:1
-    const SpriteEntry* s = sprite_lookup("dante_main");
+    const SpriteEntry* s = sprite_lookup("dante_fight");
     if (!s) { sceKernelExitGame(); return 0; }
 
     while (1) {
