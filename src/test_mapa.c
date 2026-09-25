@@ -34,25 +34,19 @@ static void fill(int x, int y, int w, int h, unsigned int cor) {
     }
 }
 
-// Classifica tile por FAIXA (mais confiável que ID exato)
+// Paleta TEMPLO (ABGR)
 static unsigned int cor_do_tile(unsigned char t) {
-    // Chão andável (maioria dos IDs baixos)
-    if (t <= 0x01) return 0xFF3A7040;   // chão verde escuro
-    if (t <= 0x0a) return 0xFF3A7040;   // chão verde
-    if (t <= 0x18) return 0xFF506050;   // chão cinza esverdeado
-    // Paredes (IDs 0x1d-0x1f e altos)
-    if (t == 0x1d || t == 0x1e || t == 0x1f) return 0xFF303050;  // parede roxa escura
-    if (t == 0x10) return 0xFF202030;   // coluna
-    // Decoração
-    if (t >= 0x40 && t < 0x80) return 0xFF4060A0;  // decoração azul
-    // Especiais (flip/invisible)
-    if (t >= 0x80) return 0;  // 0 = não desenha (vazio)
-    return 0xFF404040;
+    if (t <= 0x01) return 0xFF3A3028;   // chão pedra escura
+    if (t <= 0x0a) return 0xFF4A4038;   // chão pedra
+    if (t <= 0x18) return 0xFF5A5048;   // chão pedra clara
+    if (t == 0x1d || t == 0x1e || t == 0x1f) return 0xFF1A1A2A;  // parede escura
+    if (t == 0x10) return 0xFF0A0A1A;   // coluna
+    if (t >= 0x40 && t < 0x80) return 0xFF3A2A1A;  // decoração marrom
+    if (t >= 0x80) return 0;            // invisível
+    return 0xFF3A3028;
 }
 
-// Colisão: retorna 1 se for parede
 static int tile_solido(unsigned char t) {
-    // Só IDs conhecidos como parede
     if (t == 0x1d || t == 0x1e || t == 0x1f) return 1;
     if (t == 0x10) return 1;
     if (t >= 0x40 && t < 0x80) return 1;
@@ -73,70 +67,56 @@ int main(void) {
         SceCtrlData pad;
         sceCtrlReadBufferPositive(&pad, 1);
 
-        // Movimento com colisão
         float nx = dx, ny = dy;
         if (pad.Buttons & PSP_CTRL_LEFT)  nx -= VEL;
         if (pad.Buttons & PSP_CTRL_RIGHT) nx += VEL;
         if (pad.Buttons & PSP_CTRL_UP)    ny -= VEL;
         if (pad.Buttons & PSP_CTRL_DOWN)  ny += VEL;
 
-        // Clamp no grid
-        if (nx < 0) nx = 0;
-        if (nx > 14) nx = 14;
-        if (ny < 0) ny = 0;
-        if (ny > 29) ny = 29;
+        if (nx < 0) nx = 0; if (nx > 14) nx = 14;
+        if (ny < 0) ny = 0; if (ny > 29) ny = 29;
 
-        // Verifica colisão
-        int tx = (int)nx;
-        int ty = (int)ny;
+        int tx = (int)nx, ty = (int)ny;
         if (tx >= 0 && tx < MAP_M0_W && ty >= 0 && ty < MAP_M0_H) {
-            if (!tile_solido(map_m0[ty][tx])) {
-                dx = nx;
-                dy = ny;
-            }
+            if (!tile_solido(map_m0[ty][tx])) { dx = nx; dy = ny; }
         }
 
-        // Limpa
-        for (int i = 0; i < BUF_W * SCR_H; i++) VRAM[i] = 0xFF101010;
+        for (int i = 0; i < BUF_W * SCR_H; i++) VRAM[i] = 0xFF08080A;
 
         int cam_x = (int)(dx * TILE) - SCR_W / 2;
         int cam_y = (int)(dy * TILE) - SCR_H / 2;
-        if (cam_x < 0) cam_x = 0;
-        if (cam_y < 0) cam_y = 0;
+        if (cam_x < 0) cam_x = 0; if (cam_y < 0) cam_y = 0;
 
-        // Desenha mapa (cores sólidas)
         for (int tyy = 0; tyy < MAP_M0_H; tyy++) {
             for (int txx = 0; txx < MAP_M0_W; txx++) {
                 int sx = txx * TILE - cam_x;
                 int sy = tyy * TILE - cam_y;
                 if (sx + TILE < 0 || sx > SCR_W) continue;
                 if (sy + TILE < 0 || sy > SCR_H) continue;
-
                 unsigned int cor = cor_do_tile(map_m0[tyy][txx]);
                 if (cor == 0) continue;
-
                 fill(sx + 1, sy + 1, TILE - 2, TILE - 2, cor);
             }
         }
 
-        // Dante como sprite
+        // Dante sprite real (frame MAIOR do spritesheet)
         const SpriteEntry* s = sprite_lookup("dante_main");
         int px = (int)(dx * TILE) - cam_x;
         int py = (int)(dy * TILE) - cam_y;
 
         if (s) {
-            // Recorta frame 0 do spritesheet (primeira célula 32x32)
-            int fw = 32, fh = 32;
+            // Dante está em (16, 16) 64x64 do spritesheet (primeira pose grande)
+            int fx = 16, fy = 16, fw = 64, fh = 64;
             for (int j = 0; j < fh; j++) {
                 for (int i = 0; i < fw; i++) {
-                    if (j >= s->h || i >= s->w) continue;
-                    unsigned int cor = s->pixels[j * s->w + i];
-                    if (cor >> 24) put(px + i, py + j, fix_cor(cor));
+                    int sx = fx + i, sy = fy + j;
+                    if (sy >= s->h || sx >= s->w) continue;
+                    unsigned int cor = s->pixels[sy * s->w + sx];
+                    if (cor >> 24) put(px - 20 + i, py - 40 + j, fix_cor(cor));
                 }
             }
         } else {
-            // Fallback: quadrado vermelho
-            fill(px + 8, py + 8, 16, 16, 0xFF2020FF);
+            fill(px - 8, py - 8, 16, 16, 0xFF2020FF);
         }
 
         sceDisplayWaitVblankStart();
