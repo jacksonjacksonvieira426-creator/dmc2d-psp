@@ -1,5 +1,5 @@
-TARGET = dmc2d_test
-OBJS = src/main_test.o src/sprites_all.o
+TARGET = dmc2d_map
+OBJS = src/test_mapa.o src/sprites_all.o
 
 CFLAGS = -O2 -G0 -Wall -I src
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
