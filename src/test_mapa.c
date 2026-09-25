@@ -12,7 +12,10 @@ PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER);
 #define TILE  24
 
 #include "map_data.h"
-#include "tileset_ts1.c"
+#include "ts0.c"
+#include "ts1.c"
+#include "ts2.c"
+#include "ts3.c"
 
 static inline unsigned int fix_cor(unsigned int c) {
     return (c & 0xFF00FF00) | ((c & 0xFF0000) >> 16) | ((c & 0xFF) << 16);
@@ -23,16 +26,35 @@ static inline void put(int x, int y, unsigned int cor) {
         VRAM[y * BUF_W + x] = cor;
 }
 
+// Pega o pixel do tile certo (id 0-255 → 4 tilesets de 25)
+static unsigned int pixel_do_tile(unsigned char id, int px, int py) {
+    int ts_idx = id / 25;    // qual tileset (0-3)
+    int local  = id % 25;    // posição no tileset
+    if (ts_idx > 3) { ts_idx = 0; local = 0; }
+
+    int tx = (local % 5) * TILE + px;
+    int ty = (local / 5) * TILE + py;
+
+    const unsigned int* ts_pix = NULL;
+    int ts_w = 0;
+    switch (ts_idx) {
+        case 0: ts_pix = ts0_pixels; ts_w = TS0_W; break;
+        case 1: ts_pix = ts1_pixels; ts_w = TS1_W; break;
+        case 2: ts_pix = ts2_pixels; ts_w = TS2_W; break;
+        case 3: ts_pix = ts3_pixels; ts_w = TS3_W; break;
+    }
+    if (!ts_pix) return 0;
+    return ts_pix[ty * ts_w + tx];
+}
+
 static void desenha_tile(int sx, int sy, unsigned char id) {
-    int tx = (id % 5) * TILE;
-    int ty = (id / 5) * TILE;
     for (int j = 0; j < TILE; j++) {
         int py = sy + j;
         if (py < 0 || py >= SCR_H) continue;
         for (int i = 0; i < TILE; i++) {
             int px = sx + i;
             if (px < 0 || px >= SCR_W) continue;
-            unsigned int cor = ts1_pixels[(ty + j) * TS1_W + (tx + i)];
+            unsigned int cor = pixel_do_tile(id, i, j);
             if (cor >> 24) VRAM[py * BUF_W + px] = fix_cor(cor);
         }
     }
