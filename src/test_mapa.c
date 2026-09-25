@@ -1,7 +1,6 @@
 #include <pspkernel.h>
 #include <pspdisplay.h>
 #include <pspctrl.h>
-#include "map_data.h"
 
 PSP_MODULE_INFO("DMC2DMap", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER);
@@ -12,26 +11,31 @@ PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER);
 #define SCR_H 272
 #define TILE  24
 
-static void fill(int x, int y, int w, int h, unsigned int cor) {
-    for (int j = 0; j < h; j++) {
-        int sy = y + j;
-        if (sy < 0 || sy >= SCR_H) continue;
-        for (int i = 0; i < w; i++) {
-            int sx = x + i;
-            if (sx < 0 || sx >= SCR_W) continue;
-            VRAM[sy * BUF_W + sx] = cor;
-        }
-    }
+#include "map_data.h"
+#include "tileset_ts1.c"
+
+static inline unsigned int fix_cor(unsigned int c) {
+    return (c & 0xFF00FF00) | ((c & 0xFF0000) >> 16) | ((c & 0xFF) << 16);
 }
 
-static unsigned int cor_tile(unsigned char t) {
-    if (t == 0x1d || t == 0x1e || t == 0x1f) return 0xFF604080;  // parede roxa
-    if (t == 0x14 || t == 0x15)               return 0xFF808080;  // chao cinza
-    if (t == 0x13 || t == 0x0e)               return 0xFFA0A0A0;  // chao claro
-    if (t == 0x10)                            return 0xFF404040;  // coluna
-    if (t >= 0x04 && t <= 0x07)               return 0xFF2060C0;  // decoracao azul
-    if (t == 0x01 || t == 0x00)               return 0xFF50A050;  // chao verde
-    return 0xFF303030;
+static inline void put(int x, int y, unsigned int cor) {
+    if (x >= 0 && x < SCR_W && y >= 0 && y < SCR_H)
+        VRAM[y * BUF_W + x] = cor;
+}
+
+static void desenha_tile(int sx, int sy, unsigned char id) {
+    int tx = (id % 5) * TILE;
+    int ty = (id / 5) * TILE;
+    for (int j = 0; j < TILE; j++) {
+        int py = sy + j;
+        if (py < 0 || py >= SCR_H) continue;
+        for (int i = 0; i < TILE; i++) {
+            int px = sx + i;
+            if (px < 0 || px >= SCR_W) continue;
+            unsigned int cor = ts1_pixels[(ty + j) * TS1_W + (tx + i)];
+            if (cor >> 24) VRAM[py * BUF_W + px] = fix_cor(cor);
+        }
+    }
 }
 
 int main(void) {
@@ -47,18 +51,14 @@ int main(void) {
     while (1) {
         SceCtrlData pad;
         sceCtrlReadBufferPositive(&pad, 1);
-
         if (pad.Buttons & PSP_CTRL_LEFT)  dx -= VEL;
         if (pad.Buttons & PSP_CTRL_RIGHT) dx += VEL;
         if (pad.Buttons & PSP_CTRL_UP)    dy -= VEL;
         if (pad.Buttons & PSP_CTRL_DOWN)  dy += VEL;
+        if (dx < 0) dx = 0; if (dx > 14) dx = 14;
+        if (dy < 0) dy = 0; if (dy > 29) dy = 29;
 
-        if (dx < 0) dx = 0;
-        if (dx > 14) dx = 14;
-        if (dy < 0) dy = 0;
-        if (dy > 29) dy = 29;
-
-        for (int i = 0; i < BUF_W * SCR_H; i++) VRAM[i] = 0xFF101020;
+        for (int i = 0; i < BUF_W * SCR_H; i++) VRAM[i] = 0xFF101010;
 
         int cam_x = (int)(dx * TILE) - SCR_W / 2;
         int cam_y = (int)(dy * TILE) - SCR_H / 2;
@@ -71,13 +71,15 @@ int main(void) {
                 int sy = ty * TILE - cam_y;
                 if (sx + TILE < 0 || sx > SCR_W) continue;
                 if (sy + TILE < 0 || sy > SCR_H) continue;
-                fill(sx, sy, TILE, TILE, cor_tile(map_m0[ty][tx]));
+                desenha_tile(sx, sy, map_m0[ty][tx]);
             }
         }
 
         int px = (int)(dx * TILE) - cam_x;
         int py = (int)(dy * TILE) - cam_y;
-        fill(px + 4, py + 4, 16, 16, 0xFFFF2020);
+        for (int j = 0; j < 16; j++)
+            for (int i = 0; i < 16; i++)
+                put(px + 4 + i, py + 4 + j, 0xFF2020FF);
 
         sceDisplayWaitVblankStart();
     }
